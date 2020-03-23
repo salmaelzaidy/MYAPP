@@ -1,12 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity ,Button } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity ,Button,CheckBox, View} from 'react-native';
+import Home from'../components.js/home';
 
-export default function Todoitem({item, presshandler,navigation}) {
+
+export default function Todoitem({item, presshandler,navigation, pressHandler,}) {
+
+    
+
 return(
-    <TouchableOpacity onPress={()=> presshandler(item.key)}>
-        <Text style={styles.item}> {item.text} </Text>
-        <Button title="details" onPress={() => navigation.navigate('details')} />
-    </TouchableOpacity>
+    <View style={styles.item}>
+    <TouchableOpacity onPress={()=>presshandler(item.key)}>
+        
+        <Text > {item.text} 
+        </Text>
+        
+        </TouchableOpacity>
+        <TouchableOpacity><CheckBox style={styles.box} value={item.completed} onChange={() => pressHandler(item.key)} /></TouchableOpacity>
+   
+        <Button title="details" onPress={() => navigation.navigate('Details')} />
+        
+    </View>
 )
 
 
@@ -24,7 +37,10 @@ item:{
     borderRadius:5
 },
 
-
-
+box: {
+    marginLeft: 20,
+    marginTop:10,
+    
+}
 
 })

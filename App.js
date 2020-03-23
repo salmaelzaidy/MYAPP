@@ -1,56 +1,82 @@
 
 // In App.js in a new project
-import * as React from 'react';
-import { Button, View, Text } from 'react-native';
+import  React,{useState} from 'react';
+import { Button, View, Text, TextInput , StyleSheet,FlatList, TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import home from './components.js/home.js';
 import details from './components.js/details.js';
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
 
-function DetailsScreen({ navigation }) {
+
+ 
+
+function DetailsScreen({ navigation , route}) {
+
+  //save and set inputs
+ const [text,settext]=useState('');
+ 
+ //track input field
+     const Changehandler =(val)=>{
+
+ settext(val);}
+ 
+const submit=(text)=>{settext((prevtext) => [
+  { text: text, key: Math.random().toString() }, ...prevtext]
+)}
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
-    </View>
-  );
+    
+    
+<TextInput style={styles.input}
+placeholder='todo details ..'
+onChangeText={Changehandler}
+multiline={true}
+/>
+<TouchableOpacity>
+<Button onPress={()=>  submit(text)} title='Add details' color='coral'/>
+ </TouchableOpacity>
+<View style={{marginTop:16,
+    borderColor:'#bbb',
+    borderWidth:2,
+
+    
+    }}>
+<FlatList
+data={text}
+  renderItem={({ item }) => ( <Text>{item.text}</Text> )
+}
+/>
+
+  
+</View></View>
+);
 }
 
 const Stack = createStackNavigator();
 
-function App() {
+export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={home} />
-        <Stack.Screen name="Details" component={details} />
-        <Stack.Screen name="details" component={DetailsScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+       
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default App;
+
+const styles = StyleSheet.create({
+  input:{
+  marginBottom:10,
+  paddingHorizontal:8,
+  paddingVertical:6,
+  borderBottomWidth:1,
+  borderColor:'#bbb'
+  }
+  })
+  
 
 /*import * as React from 'react';
 import { View, Text } from 'react-native';
